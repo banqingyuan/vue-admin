@@ -7,10 +7,13 @@ import { computed, ref } from 'vue';
 import { AuthenticationCodeLogin, z } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
+import { useAuthStore } from '#/store';
+
 defineOptions({ name: 'CodeLogin' });
 
-const loading = ref(false);
-const CODE_LENGTH = 6;
+const authStore = useAuthStore();
+const CODE_LENGTH = 4;
+const codeLoginRef = ref();
 
 const formSchema = computed((): VbenFormSchema[] => {
   return [
@@ -39,6 +42,20 @@ const formSchema = computed((): VbenFormSchema[] => {
               : $t('authentication.sendCode');
           return text;
         },
+        handleSendCode: async () => {
+          // 获取手机号
+          const formApi = codeLoginRef.value?.getFormApi();
+          if (!formApi) {
+            throw new Error('表单未初始化');
+          }
+          const values = await formApi.getValues();
+          const phoneNumber = values.phoneNumber;
+          if (!phoneNumber) {
+            throw new Error('请先输入手机号');
+          }
+          return await authStore.sendSMSCode(phoneNumber);
+        },
+        loading: computed(() => authStore.sendCodeLoading),
         placeholder: $t('authentication.code'),
       },
       fieldName: 'code',
@@ -55,15 +72,15 @@ const formSchema = computed((): VbenFormSchema[] => {
  * @param values 登录表单数据
  */
 async function handleLogin(values: Recordable<any>) {
-  // eslint-disable-next-line no-console
-  console.log(values);
+  await authStore.authLogin(values);
 }
 </script>
 
 <template>
   <AuthenticationCodeLogin
+    ref="codeLoginRef"
     :form-schema="formSchema"
-    :loading="loading"
+    :loading="authStore.loginLoading"
     @submit="handleLogin"
   />
 </template>

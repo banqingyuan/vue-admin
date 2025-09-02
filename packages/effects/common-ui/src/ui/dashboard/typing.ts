@@ -6,6 +6,14 @@ interface AnalysisOverviewItem {
   totalTitle: string;
   totalValue: number;
   value: number;
+  /**
+   * 可选：数值前缀（如货币符号）
+   */
+  prefix?: string;
+  /**
+   * 可选：小数位精度（默认 0）
+   */
+  decimals?: number;
 }
 
 interface WorkbenchProjectItem {

@@ -92,7 +92,8 @@
     "vite": "catalog:",
     "vitest": "catalog:",
     "vue": "catalog:",
-    "vue-tsc": "catalog:"
+    "vue-tsc": "catalog:",
+    "vue3-otp-input": "^0.5.40"
   },
   "engines": {
     "node": ">=20.10.0",

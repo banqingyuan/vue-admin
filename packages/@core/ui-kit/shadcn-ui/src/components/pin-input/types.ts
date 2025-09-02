@@ -25,6 +25,10 @@ interface PinInputProps {
    * 最大重试时间
    */
   maxTime?: number;
+  /**
+   * 是否自动聚焦到第一个输入框
+   */
+  shouldAutoFocus?: boolean;
 }
 
 export type { PinInputProps };

@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  web-antd:
+    build:
+      context: ../..
+      dockerfile: apps/web-antd/Dockerfile
+    container_name: web-antd
+    ports:
+      - "8080:8080"
+    environment:
+      - BACKEND_URL=http://admin-backend:8001
+      - VITE_GLOB_API_URL=/api
+    networks:
+      - app-network
+    depends_on:
+      - admin-backend
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  admin-backend:
+    image: admin-backend:latest
+    container_name: admin-backend
+    ports:
+      - "8001:8001"
+    environment:
+      - SERVER_ENV=prod
+      - CONFIG_PATH=/app/config/prod.yml
+      # 数据库配置 - 请根据实际情况修改
+      - DATA_POSTGRES_HOST=your-postgres-host
+      - DATA_POSTGRES_PORT=5432
+      - DATA_POSTGRES_USER=your-db-user
+      - DATA_POSTGRES_PASSWORD=your-db-password
+      - DATA_POSTGRES_DBNAME=your-db-name
+      - DATA_COLLECTION_POSTGRES_HOST=your-postgres-host
+      - DATA_COLLECTION_POSTGRES_DBNAME=your-db-name
+    networks:
+      - app-network
+    restart: unless-stopped
+
+networks:
+  app-network:
+    driver: bridge

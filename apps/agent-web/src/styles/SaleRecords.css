@@ -1,0 +1,194 @@
+/* 充值记录页面样式 */
+.sale-records-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.records-title {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin: 0 0 20px;
+  font-size: 18px;
+  color: #ffe395; /* primary.6 */
+}
+
+.club-icon {
+  font-size: 20px;
+  color: #ffe395; /* primary.6 */
+}
+
+.records-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.sale-record-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 15px;
+  background-color: #202020; /* 深色背景 */
+  border-bottom: 1px solid #333;
+  border-radius: 12px;
+}
+
+.record-time {
+  font-size: 18px;
+  font-weight: bold;
+  color: #fff; /* 白色 */
+}
+
+.record-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.record-user-info,
+.record-order-info {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.record-label {
+  font-size: 14px;
+  color: #999; /* 浅灰色 */
+}
+
+.record-value {
+  font-size: 14px;
+  color: #fff; /* 白色 */
+}
+
+.record-package-info {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+}
+
+.record-package {
+  font-size: 18px;
+  font-weight: bold;
+  color: #ffe395; /* primary.6 */
+}
+
+.cancel-sale-button {
+  padding: 6px 12px;
+  font-size: 14px;
+  color: #fff;
+  cursor: pointer;
+  background-color: var(--basic-1, #fff);
+  border: 1px solid var(--basic-3, #d9d9d9);
+  border-radius: 6px;
+  transition: all 0.3s;
+}
+
+.cancel-sale-button:hover {
+  background-color: var(--basic-2, #fafafa);
+}
+
+.cancelled-status {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  font-size: 14px;
+  color: #fff;
+}
+
+.cancelled-icon {
+  width: 16px;
+  height: 16px;
+}
+
+/* 撤销确认弹窗样式 */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgb(0 0 0 / 60%);
+}
+
+/* 错误提示弹窗样式 */
+.error-modal {
+  width: 90%;
+  max-width: 400px;
+  padding: 24px;
+  background-color: #202020;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgb(0 0 0 / 40%);
+}
+
+.error-modal-title {
+  margin: 0 0 16px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #ff4d4f;
+  text-align: center;
+}
+
+.error-modal-content {
+  margin-bottom: 20px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #fff;
+  text-align: center;
+}
+
+.error-modal-content p {
+  margin: 8px 0;
+}
+
+.error-modal-buttons {
+  display: flex;
+  justify-content: center;
+}
+
+/* 撤销确认按钮样式 */
+.cancel-confirm-button {
+  flex: 1.5;
+  padding: 15px 0;
+  font-size: 16px;
+  font-weight: bold;
+  color: #fff;
+  cursor: pointer;
+  background-color: var(--danger-6, #ff4d4f);
+  border: none;
+  border-radius: 12px;
+  transition: background-color 0.3s;
+}
+
+.cancel-confirm-button:hover {
+  background-color: var(--danger-7, #ff7875);
+}
+
+/* 加载状态 */
+.records-loading,
+.records-error,
+.records-empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  font-size: 16px;
+  color: #999; /* 浅灰色 */
+}
+
+.records-error {
+  color: #ff4d4f; /* 错误红色 */
+}
+
+.records-empty {
+  color: #8c8c8c; /* basic.5 */
+}

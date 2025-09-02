@@ -30,15 +30,15 @@ async function viteLicensePlugin(
       handler: (_options: NormalizedOutputOptions, bundle: OutputBundle) => {
         const date = dateUtil().format('YYYY-MM-DD ');
         const copyrightText = `/*!
-  * Vben Admin
+  * HangZhou Yimukeshi Technology Co., Ltd.
   * Version: ${version}
   * Author: vben
-  * Copyright (C) 2024 Vben
+  * Copyright (C) 2024 HangZhou Yimukeshi Technology Co., Ltd.
   * License: MIT License
   * Description: ${description}
   * Date Created: ${date}
   * Homepage: ${homepage}
-  * Contact: ann.vben@gmail.com
+  * Contact: business@aijpq.com
 */
               `.trim();
 

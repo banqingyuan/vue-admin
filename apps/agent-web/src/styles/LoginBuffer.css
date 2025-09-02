@@ -1,0 +1,271 @@
+@import './colorVariables.css';
+
+.login-buffer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  color: var(--basic-10);
+  background-color: var(--basic-0);
+}
+
+/* 背景呼吸动效 */
+.login-buffer::before {
+  position: absolute;
+  top: -10%;
+  left: -10%;
+  z-index: 0;
+  width: 120%;
+  height: 120%;
+  content: '';
+  background: radial-gradient(
+    circle,
+    rgb(53 53 53 / 30%) 0%,
+    rgb(0 0 0 / 0%) 70%
+  );
+  animation: pulse 10s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+
+  50% {
+    opacity: 0.8;
+    transform: scale(1.2);
+  }
+
+  100% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+}
+
+/* 头部样式 */
+.buffer-header {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 20px 0;
+}
+
+/* 内容区域 */
+.buffer-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 480px;
+  padding: 60px 20px 30px;
+}
+
+/* 头部标志 */
+.login-buffer .logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.buffer-logo {
+  width: 60px;
+  height: 60px;
+  filter: drop-shadow(0 4px 8px rgb(0 0 0 / 30%));
+}
+
+/* 标题 */
+.agency-title {
+  margin: 10px 0 5px;
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--primary-6);
+  text-align: center;
+}
+
+.welcome-text {
+  margin-bottom: 30px;
+  font-size: 16px;
+  color: var(--basic-6);
+  text-align: center;
+}
+
+/* 登录按钮 */
+.login-button {
+  width: 80%;
+  padding: 15px 30px;
+  margin-bottom: 40px;
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--basic-0);
+  cursor: pointer;
+  background-color: var(--primary-6);
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgb(255 227 149 / 30%);
+  transition: all 0.3s;
+}
+
+.login-button:hover {
+  background-color: var(--primary-7);
+  box-shadow: 0 6px 16px rgb(255 227 149 / 40%);
+  transform: translateY(-2px);
+}
+
+.login-button:disabled {
+  opacity: 0.7;
+}
+
+/* 二维码部分 */
+.qr-code-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.agency-qrcode {
+  width: 160px;
+  height: 160px;
+  margin-bottom: 8px;
+  border-radius: 10px;
+  animation: glow 3s infinite;
+}
+
+.qr-code-hint {
+  margin-top: 5px;
+  font-size: 14px;
+  color: var(--basic-6);
+}
+
+/* 底部区域 */
+.buffer-bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 15px;
+  margin-top: auto;
+}
+
+/* 微信信息 */
+.wechat-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 10px 15px;
+  margin-bottom: 5px;
+  cursor: pointer;
+  background-color: transparent;
+}
+
+.wechat-icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 8px;
+  filter: brightness(0) saturate(100%) invert(70%) sepia(86%) saturate(389%)
+    hue-rotate(72deg) brightness(88%) contrast(91%);
+}
+
+.wechat-info span {
+  margin-right: 10px;
+  font-size: 14px;
+  color: var(--basic-5);
+}
+
+.copy-indicator {
+  display: flex;
+  align-items: center;
+}
+
+.copy-indicator img {
+  width: 16px;
+  height: 16px;
+  opacity: 0.7;
+}
+
+.wechat-info:hover .copy-indicator img {
+  opacity: 1;
+}
+
+/* 页脚 */
+.buffer-footer {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  font-size: 12px;
+  color: var(--basic-5);
+  text-align: center;
+}
+
+.footer-info {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: center;
+}
+
+.divider {
+  color: var(--basic-5);
+  opacity: 0.5;
+}
+
+.buffer-footer p {
+  margin: 0;
+}
+
+.beian {
+  color: var(--basic-5);
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.beian:hover {
+  color: var(--primary-6);
+}
+
+/* 呼吸灯效果 */
+@keyframes glow {
+  0% {
+    box-shadow: 0 0 5px rgb(var(--primary-6-rgb), 0.3);
+  }
+
+  50% {
+    box-shadow: 0 0 20px rgb(var(--primary-6-rgb), 0.6);
+  }
+
+  100% {
+    box-shadow: 0 0 5px rgb(var(--primary-6-rgb), 0.3);
+  }
+}
+
+/* 响应式调整 */
+@media (max-width: 480px) {
+  .buffer-content {
+    padding: 40px 16px 20px;
+  }
+
+  .login-button {
+    width: 90%;
+  }
+
+  .agency-qrcode {
+    width: 140px;
+    height: 140px;
+  }
+}

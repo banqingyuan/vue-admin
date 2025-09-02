@@ -1,0 +1,45 @@
+.logout-callback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
+  background-color: #f8f9fa;
+}
+
+.logout-callback .buffer-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 300px;
+  padding: 40px;
+  text-align: center;
+  background-color: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgb(0 0 0 / 10%);
+}
+
+.logout-callback .loading-spinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid rgb(0 0 0 / 10%);
+  border-left-color: #2d8cf0;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+.logout-callback .buffer-text {
+  margin-top: 20px;
+  font-size: 16px;
+  color: #666;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

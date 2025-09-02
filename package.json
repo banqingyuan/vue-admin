@@ -92,7 +92,8 @@
     "vite": "catalog:",
     "vitest": "catalog:",
     "vue": "catalog:",
-    "vue-tsc": "catalog:"
+    "vue-tsc": "catalog:",
+    "vue3-otp-input": "^0.5.40"
   },
   "engines": {
     "node": ">=20.10.0",
@@ -108,6 +109,7 @@
     "overrides": {
       "@ast-grep/napi": "catalog:",
       "@ctrl/tinycolor": "catalog:",
+      "axios": "catalog:",
       "clsx": "catalog:",
       "esbuild": "0.25.3",
       "pinia": "catalog:",

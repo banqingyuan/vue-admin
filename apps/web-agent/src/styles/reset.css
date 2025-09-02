@@ -1,0 +1,36 @@
+/* 基础样式重置 */
+
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  cursor: pointer;
+  outline: none;
+  background: none;
+  border: none;
+}
+
+input,
+textarea {
+  outline: none;
+  border: none;
+}

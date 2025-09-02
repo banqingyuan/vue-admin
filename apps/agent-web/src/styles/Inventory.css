@@ -1,0 +1,142 @@
+/* 库存页面样式 */
+.inventory-container {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.inventory-title {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin: 0 0 20px;
+  font-size: 18px;
+  color: #ffe395; /* primary.6 */
+}
+
+.heart-icon {
+  font-size: 20px;
+  color: #ffe395; /* primary.6 */
+}
+
+.inventory-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+.inventory-card {
+  display: flex;
+  flex-direction: column;
+  height: auto;
+  min-height: 65px;
+  padding: 15px;
+  overflow: hidden;
+  background-color: #2a2a2a; /* 深灰色背景 */
+  border-radius: 12px;
+}
+
+.card-header {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.card-type {
+  font-size: 18px;
+  font-weight: bold;
+  color: #bbb; /* 浅灰色 */
+}
+
+.card-type.vip {
+  color: #bbb; /* 浅灰色 */
+}
+
+.card-type.svip {
+  color: #ffe395; /* primary.6 */
+}
+
+.card-duration {
+  font-size: 18px;
+  color: #bbb; /* 浅灰色 */
+  white-space: nowrap; /* 防止文本换行 */
+}
+
+.card-quantity {
+  display: flex;
+  align-items: baseline;
+  margin-top: 6px;
+}
+
+.quantity-value {
+  font-size: 28px;
+  font-weight: bold;
+  color: #ffe395; /* primary.6 */
+}
+
+/* 数量为0时的样式 */
+.quantity-value.empty {
+  color: #8c8c8c; /* basic.5 灰色 */
+}
+
+.quantity-unit {
+  margin-left: 5px;
+  font-size: 16px;
+  color: #bbb; /* 浅灰色 */
+}
+
+.inventory-loading,
+.inventory-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  font-size: 16px;
+  color: #bbb; /* 浅灰色 */
+}
+
+.inventory-error {
+  color: #ff4d4f; /* 错误红色 */
+}
+
+/* 移动端适配 */
+@media screen and (max-width: 768px) {
+  .card-type {
+    font-size: 16px;
+  }
+
+  .card-duration {
+    font-size: 16px;
+  }
+
+  .quantity-value {
+    font-size: 24px;
+  }
+
+  .quantity-unit {
+    font-size: 14px;
+  }
+
+  .inventory-grid {
+    gap: 10px;
+  }
+}
+
+/* 小屏幕设备额外适配 */
+@media screen and (max-width: 480px) {
+  .card-type {
+    font-size: 14px;
+  }
+
+  .card-duration {
+    font-size: 14px;
+  }
+
+  .inventory-grid {
+    gap: 8px;
+  }
+
+  .inventory-card {
+    padding: 12px 10px;
+  }
+}

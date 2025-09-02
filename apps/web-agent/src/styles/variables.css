@@ -1,0 +1,33 @@
+/* CSS 变量定义 - 从 agent-web 迁移 */
+
+:root {
+  /* 主色系 primary */
+  --primary-1: #fffdf0;
+  --primary-2: #fff9e7;
+  --primary-3: #fff6dd;
+  --primary-4: #fff2cc;
+  --primary-5: #ffecb5;
+  --primary-6: #ffe395;
+  --primary-7: #e5cc86;
+  --primary-8: #c4af75;
+  --primary-9: #897c55;
+  --primary-10: #4f4834;
+  --primary-11: #332d1e;
+  --primary-12: #201e1a;
+
+  /* 基础色系 basic */
+  --basic-0: #141414;
+  --basic-1: #1f1f1f;
+  --basic-2: #262626;
+  --basic-3: #434343;
+  --basic-4: #595959;
+  --basic-5: #8c8c8c;
+  --basic-6: #bfbfbf;
+  --basic-7: #f0f0f0;
+  --basic-8: #f5f5f5;
+  --basic-9: #fafafa;
+  --basic-10: #fff;
+
+  /* 功能色 */
+  --error-color: #ff4d4f;
+}

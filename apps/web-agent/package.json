@@ -1,0 +1,42 @@
+{
+  "name": "@vben/web-agent",
+  "version": "5.5.9",
+  "homepage": "https://vben.pro",
+  "bugs": "https://github.com/vbenjs/vue-vben-admin/issues",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vbenjs/vue-vben-admin.git",
+    "directory": "apps/web-agent"
+  },
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "prebuild": "pnpm --filter @vben-core/shared build",
+    "build": "pnpm vite build --mode production",
+    "build:analyze": "pnpm vite build --mode analyze",
+    "dev": "pnpm vite --mode development",
+    "preview": "vite preview",
+    "typecheck": "vue-tsc --noEmit --skipLibCheck"
+  },
+  "imports": {
+    "#/*": "./src/*"
+  },
+  "dependencies": {
+    "@vben/request": "workspace:*",
+    "@vueuse/core": "catalog:",
+    "authing-js-sdk": "^4.23.54",
+    "axios": "catalog:",
+    "dayjs": "catalog:",
+    "pinia": "catalog:",
+    "vue": "catalog:",
+    "vue-router": "catalog:"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "@vitejs/plugin-vue": "catalog:",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vue-tsc": "catalog:"
+  }
+}
+

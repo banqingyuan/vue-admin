@@ -1,10 +1,10 @@
 <script lang="ts" setup>
 import type { VbenFormSchema } from '@vben/common-ui';
-import type { BasicOption } from '@vben/types';
+import type { Recordable } from '@vben/types';
 
-import { computed, markRaw } from 'vue';
+import { computed, ref } from 'vue';
 
-import { AuthenticationLogin, SliderCaptcha, z } from '@vben/common-ui';
+import { AuthenticationCodeLogin, z } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import { useAuthStore } from '#/store';
@@ -12,87 +12,77 @@ import { useAuthStore } from '#/store';
 defineOptions({ name: 'Login' });
 
 const authStore = useAuthStore();
-
-const MOCK_USER_OPTIONS: BasicOption[] = [
-  {
-    label: 'Super',
-    value: 'vben',
-  },
-  {
-    label: 'Admin',
-    value: 'admin',
-  },
-  {
-    label: 'User',
-    value: 'jack',
-  },
-];
+const CODE_LENGTH = 4;
+const codeLoginRef = ref();
 
 const formSchema = computed((): VbenFormSchema[] => {
   return [
     {
-      component: 'VbenSelect',
-      componentProps: {
-        options: MOCK_USER_OPTIONS,
-        placeholder: $t('authentication.selectAccount'),
-      },
-      fieldName: 'selectAccount',
-      label: $t('authentication.selectAccount'),
-      rules: z
-        .string()
-        .min(1, { message: $t('authentication.selectAccount') })
-        .optional()
-        .default('vben'),
-    },
-    {
       component: 'VbenInput',
       componentProps: {
-        placeholder: $t('authentication.usernameTip'),
+        placeholder: $t('authentication.mobile'),
       },
-      dependencies: {
-        trigger(values, form) {
-          if (values.selectAccount) {
-            const findUser = MOCK_USER_OPTIONS.find(
-              (item) => item.value === values.selectAccount,
-            );
-            if (findUser) {
-              form.setValues({
-                password: '123456',
-                username: findUser.value,
-              });
-            }
-          }
-        },
-        triggerFields: ['selectAccount'],
-      },
-      fieldName: 'username',
-      label: $t('authentication.username'),
-      rules: z.string().min(1, { message: $t('authentication.usernameTip') }),
+      fieldName: 'phoneNumber',
+      label: $t('authentication.mobile'),
+      rules: z
+        .string()
+        .min(1, { message: $t('authentication.mobileTip') })
+        .refine((v) => /^\d{11}$/.test(v), {
+          message: $t('authentication.mobileErrortip'),
+        }),
     },
     {
-      component: 'VbenInputPassword',
+      component: 'VbenPinInput',
       componentProps: {
-        placeholder: $t('authentication.password'),
+        codeLength: CODE_LENGTH,
+        createText: (countdown: number) => {
+          const text =
+            countdown > 0
+              ? $t('authentication.sendText', [countdown])
+              : $t('authentication.sendCode');
+          return text;
+        },
+        handleSendCode: async () => {
+          // 获取手机号
+          const formApi = codeLoginRef.value?.getFormApi();
+          if (!formApi) {
+            throw new Error('表单未初始化');
+          }
+          const values = await formApi.getValues();
+          const phoneNumber = values.phoneNumber;
+          if (!phoneNumber) {
+            throw new Error('请先输入手机号');
+          }
+          return await authStore.sendSMSCode(phoneNumber);
+        },
+        loading: computed(() => authStore.sendCodeLoading),
+        placeholder: $t('authentication.code'),
       },
-      fieldName: 'password',
-      label: $t('authentication.password'),
-      rules: z.string().min(1, { message: $t('authentication.passwordTip') }),
-    },
-    {
-      component: markRaw(SliderCaptcha),
-      fieldName: 'captcha',
-      rules: z.boolean().refine((value) => value, {
-        message: $t('authentication.verifyRequiredTip'),
+      fieldName: 'code',
+      label: $t('authentication.code'),
+      rules: z.string().length(CODE_LENGTH, {
+        message: $t('authentication.codeTip', [CODE_LENGTH]),
       }),
     },
   ];
 });
+
+/**
+ * 异步处理登录操作
+ * Asynchronously handle the login process
+ * @param values 登录表单数据
+ */
+async function handleLogin(values: Recordable<any>) {
+  await authStore.authLogin(values);
+}
 </script>
 
 <template>
-  <AuthenticationLogin
+  <AuthenticationCodeLogin
+    ref="codeLoginRef"
     :form-schema="formSchema"
     :loading="authStore.loginLoading"
-    @submit="authStore.authLogin"
+    :show-back-button="false"
+    @submit="handleLogin"
   />
 </template>

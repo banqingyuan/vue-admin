@@ -1,20 +1,20 @@
 {
   "folders": [
     {
+      "name": "agent-web",
+      "path": "apps/agent-web",
+    },
+    {
       "name": "@vben/backend-mock",
       "path": "apps/backend-mock",
     },
     {
+      "name": "@vben/web-agent",
+      "path": "apps/web-agent",
+    },
+    {
       "name": "@vben/web-antd",
       "path": "apps/web-antd",
-    },
-    {
-      "name": "@vben/web-ele",
-      "path": "apps/web-ele",
-    },
-    {
-      "name": "@vben/web-naive",
-      "path": "apps/web-naive",
     },
     {
       "name": "@vben/docs",

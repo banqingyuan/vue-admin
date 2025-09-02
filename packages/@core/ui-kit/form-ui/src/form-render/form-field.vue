@@ -338,7 +338,8 @@ onUnmounted(() => {
                 :is="FieldComponent"
                 ref="fieldComponentRef"
                 :class="{
-                  'border-destructive focus:border-destructive hover:border-destructive/80 focus:shadow-[0_0_0_2px_rgba(255,38,5,0.06)]':
+                  // 错误态：使用红色边框与红色 ring，覆盖默认的蓝色 ring，避免叠加
+                  'border-destructive focus:border-destructive hover:border-destructive/80 focus-visible:ring-destructive focus:ring-0 focus-visible:ring-1 focus-visible:ring-offset-0':
                     isInValid,
                 }"
                 v-bind="createComponentProps(slotProps)"

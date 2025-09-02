@@ -12,9 +12,9 @@ defineOptions({
 });
 
 withDefaults(defineProps<Props>(), {
-  companyName: 'Vben Admin',
+  companyName: 'HangZhou Yimukeshi Technology Co., Ltd.',
   companySiteLink: '',
-  date: '2024',
+  date: '2025',
   icp: '',
   icpLink: '',
 });

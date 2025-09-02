@@ -61,7 +61,7 @@ interface NitroMockPluginOptions {
 
   /**
    * Mock 服务端口
-   * @default 3000
+   * @default 8001
    */
   port?: number;
 

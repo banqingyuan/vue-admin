@@ -1,11 +1,13 @@
 # 登录后状态检查逻辑
 
 ## 概述
+
 用户登录成功后，系统会自动检查其推广员申请状态，并根据不同状态跳转到相应页面。
 
 ## 后端接口
 
 ### 获取审核状态
+
 - **接口**: `GET /api/promoter/status`
 - **认证**: 需要JWT Token (Bearer)
 - **角色要求**: promoter
@@ -13,12 +15,12 @@
 
 ### 状态值说明
 
-| 状态值 | 说明 | 前端行为 |
-|--------|------|----------|
+| 状态值      | 说明           | 前端行为                                |
+| ----------- | -------------- | --------------------------------------- |
 | `"pending"` | 未提交或待审核 | 跳转到 `/result/success` (提交成功页面) |
-| `"reject"` | 审核拒绝 | 跳转到 `/result/fail` (审核拒绝页面) |
-| `"pass"` | 审核通过 | 跳转到主应用 (暂时跳转到成功页面) |
-| 其他/未知 | 异常状态 | 跳转到 `/apply/personal` (申请页面) |
+| `"reject"`  | 审核拒绝       | 跳转到 `/result/fail` (审核拒绝页面)    |
+| `"pass"`    | 审核通过       | 跳转到主应用 (暂时跳转到成功页面)       |
+| 其他/未知   | 异常状态       | 跳转到 `/apply/personal` (申请页面)     |
 
 ### 后端状态映射逻辑
 
@@ -38,34 +40,34 @@
 async function onSubmit() {
   // 1. 验证表单
   if (!canSubmit.value) return;
-  
+
   try {
     // 2. 调用登录接口
-    const data = await loginApi({ 
-      phone_number: phone.value, 
-      code: code.value, 
-      allow_register_role: 'promoter' 
+    const data = await loginApi({
+      phone_number: phone.value,
+      code: code.value,
+      allow_register_role: 'promoter',
     });
-    
+
     // 3. 保存Token和用户信息
     auth.setToken(data.token);
     auth.setUser(data.user);
-    
+
     // 4. 检查申请状态
     try {
       const statusResponse = await getStatusApi();
       const status = statusResponse.data;
-      
+
       // 5. 根据状态跳转
       if (status === 'pending') {
-        router.replace('/result/success');  // 提交成功页面
+        router.replace('/result/success'); // 提交成功页面
       } else if (status === 'reject') {
-        router.replace('/result/fail');     // 审核拒绝页面
+        router.replace('/result/fail'); // 审核拒绝页面
       } else if (status === 'pass') {
         toast.success('审核已通过');
-        router.replace('/result/success');  // TODO: 改为主应用页面
+        router.replace('/result/success'); // TODO: 改为主应用页面
       } else {
-        router.replace('/apply/personal');  // 申请页面
+        router.replace('/apply/personal'); // 申请页面
       }
     } catch (statusError) {
       // 状态获取失败，默认跳转到申请页面
@@ -94,13 +96,13 @@ export function getStatusApi() {
 
 ## 页面路由
 
-| 路径 | 组件 | 说明 | 需要认证 |
-|------|------|------|---------|
-| `/login` | Login.vue | 登录页面 | ❌ |
-| `/apply/personal` | ApplyPersonal.vue | 个人申请页面 | ✅ |
-| `/apply/company` | ApplyCompany.vue | 企业申请页面 | ✅ |
-| `/result/success` | ResultSuccess.vue | 提交成功页面 | ✅ |
-| `/result/fail` | ResultFail.vue | 审核拒绝页面 | ✅ |
+| 路径              | 组件              | 说明         | 需要认证 |
+| ----------------- | ----------------- | ------------ | -------- |
+| `/login`          | Login.vue         | 登录页面     | ❌       |
+| `/apply/personal` | ApplyPersonal.vue | 个人申请页面 | ✅       |
+| `/apply/company`  | ApplyCompany.vue  | 企业申请页面 | ✅       |
+| `/result/success` | ResultSuccess.vue | 提交成功页面 | ✅       |
+| `/result/fail`    | ResultFail.vue    | 审核拒绝页面 | ✅       |
 
 ## 用户流程图
 
@@ -141,17 +143,19 @@ export function getStatusApi() {
 
 ```typescript
 // 标记需要状态检查的路由
-meta: { requiresStatusCheck: true }
+meta: {
+  requiresStatusCheck: true;
+}
 
 // 在路由守卫中检查
 if (to.meta.requiresStatusCheck && auth.token) {
   const status = await getStatusApi();
-  
+
   // 根据状态重定向
   if (status === 'pending') {
-    next('/result/success');  // 已提交，显示等待页面
+    next('/result/success'); // 已提交，显示等待页面
   } else if (status === 'reject') {
-    next('/result/fail');     // 已拒绝，显示拒绝页面
+    next('/result/fail'); // 已拒绝，显示拒绝页面
   } else if (status === 'pass') {
     // 已通过，允许访问或重定向到主应用
   }
@@ -161,25 +165,26 @@ if (to.meta.requiresStatusCheck && auth.token) {
 
 ### 路由配置
 
-| 路径 | `requiresStatusCheck` | 说明 |
-|------|----------------------|------|
-| `/apply/personal` | ✅ | 个人申请页面 - 需要检查 |
-| `/apply/company` | ✅ | 企业申请页面 - 需要检查 |
-| `/confirm/*` | ❌ | 确认页面 - 无需检查 |
-| `/result/*` | ❌ | 结果页面 - 无需检查 |
+| 路径              | `requiresStatusCheck` | 说明                    |
+| ----------------- | --------------------- | ----------------------- |
+| `/apply/personal` | ✅                    | 个人申请页面 - 需要检查 |
+| `/apply/company`  | ✅                    | 企业申请页面 - 需要检查 |
+| `/confirm/*`      | ❌                    | 确认页面 - 无需检查     |
+| `/result/*`       | ❌                    | 结果页面 - 无需检查     |
 
 ### 重定向规则
 
-| 当前状态 | 尝试访问 `/apply/*` | 实际跳转 | 原因 |
-|---------|-------------------|---------|------|
-| `pending` | `/apply/personal` | `/result/success` | 已提交，等待审核 |
-| `reject` | `/apply/personal` | `/result/fail` | 已拒绝，需联系客服 |
-| `pass` | `/apply/personal` | 允许访问 | 已通过（暂时允许） |
-| 未知/错误 | `/apply/personal` | 允许访问 | 允许提交申请 |
+| 当前状态  | 尝试访问 `/apply/*` | 实际跳转          | 原因               |
+| --------- | ------------------- | ----------------- | ------------------ |
+| `pending` | `/apply/personal`   | `/result/success` | 已提交，等待审核   |
+| `reject`  | `/apply/personal`   | `/result/fail`    | 已拒绝，需联系客服 |
+| `pass`    | `/apply/personal`   | 允许访问          | 已通过（暂时允许） |
+| 未知/错误 | `/apply/personal`   | 允许访问          | 允许提交申请       |
 
 ### 场景示例
 
 **场景1：用户已提交申请，尝试再次提交**
+
 ```
 用户访问 /apply/personal
   ↓
@@ -193,6 +198,7 @@ status = "pending"
 ```
 
 **场景2：用户申请被拒绝，尝试重新申请**
+
 ```
 用户访问 /apply/personal
   ↓
@@ -206,6 +212,7 @@ status = "reject"
 ```
 
 **场景3：首次访问或审核通过**
+
 ```
 用户访问 /apply/personal
   ↓
@@ -231,4 +238,3 @@ status = null 或 "pass"
 - [ ] 优化状态检查的加载体验（添加loading状态）
 - [ ] 添加状态变更通知功能
 - [ ] 为拒绝状态添加重新申请功能
-

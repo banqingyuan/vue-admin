@@ -42,6 +42,7 @@
 ```
 
 **关键属性说明**：
+
 - `overflow-x: hidden` - 隐藏横向溢出内容
 - `width: 100%` - 确保宽度不超过父容器
 - `max-width: 100vw` - 最大宽度限制为视口宽度
@@ -53,7 +54,8 @@
 
 ```css
 /* Global Styles */
-html, body {
+html,
+body {
   background: var(--basic-0);
   color: var(--basic-10);
   font-family: var(--font-family-primary);
@@ -87,6 +89,7 @@ body {
 采用了多层防护策略，确保在不同层级都禁用了横向滚动：
 
 1. **HTML 层级**
+
    ```css
    html {
      overflow-x: hidden;
@@ -95,6 +98,7 @@ body {
    ```
 
 2. **Body 层级**
+
    ```css
    body {
      overflow-x: hidden;
@@ -105,6 +109,7 @@ body {
    ```
 
 3. **App 容器层级**
+
    ```css
    #app {
      overflow-x: hidden;
@@ -133,11 +138,13 @@ body {
 ### 受影响的功能
 
 ✅ **保留的功能**：
+
 - 纵向滚动（`overflow-y`）仍然正常工作
 - 所有页面的上下滚动不受影响
 - 模态框、弹窗等组件的滚动不受影响
 
 ❌ **禁用的功能**：
+
 - 所有页面的横向滚动
 - 手指左右滑动触发的横向移动
 - 超宽内容的横向查看
@@ -149,6 +156,7 @@ body {
 **场景**：某些内容（如长文本、宽表格）可能超出屏幕宽度
 
 **解决方案**：
+
 ```css
 /* 对于需要显示完整内容的元素 */
 .overflow-content {
@@ -162,6 +170,7 @@ body {
 **场景**：某些手势操作可能被阻止
 
 **解决方案**：
+
 - 使用 `touch-action` 属性控制触摸行为
 - 在需要横向滑动的组件上单独设置
 
@@ -231,25 +240,25 @@ body {
 ### overflow-x
 
 ```css
-overflow-x: hidden;  /* 隐藏横向溢出 */
-overflow-x: auto;    /* 需要时显示横向滚动条 */
-overflow-x: scroll;  /* 始终显示横向滚动条 */
+overflow-x: hidden; /* 隐藏横向溢出 */
+overflow-x: auto; /* 需要时显示横向滚动条 */
+overflow-x: scroll; /* 始终显示横向滚动条 */
 overflow-x: visible; /* 显示溢出内容（默认）*/
 ```
 
 ### width 和 max-width
 
 ```css
-width: 100%;          /* 宽度为父容器的 100% */
-max-width: 100vw;     /* 最大宽度为视口宽度 */
-max-width: 700px;     /* 最大宽度为 700px（设计稿尺寸）*/
+width: 100%; /* 宽度为父容器的 100% */
+max-width: 100vw; /* 最大宽度为视口宽度 */
+max-width: 700px; /* 最大宽度为 700px（设计稿尺寸）*/
 ```
 
 ### box-sizing
 
 ```css
 * {
-  box-sizing: border-box;  /* padding 和 border 包含在 width 内 */
+  box-sizing: border-box; /* padding 和 border 包含在 width 内 */
 }
 ```
 
@@ -260,6 +269,7 @@ max-width: 700px;     /* 最大宽度为 700px（设计稿尺寸）*/
 ### 1. 避免使用固定宽度
 
 ❌ **不推荐**：
+
 ```css
 .container {
   width: 500px; /* 固定宽度可能超出小屏幕 */
@@ -267,6 +277,7 @@ max-width: 700px;     /* 最大宽度为 700px（设计稿尺寸）*/
 ```
 
 ✅ **推荐**：
+
 ```css
 .container {
   width: 100%;
@@ -277,6 +288,7 @@ max-width: 700px;     /* 最大宽度为 700px（设计稿尺寸）*/
 ### 2. 使用响应式单位
 
 ❌ **不推荐**：
+
 ```css
 .element {
   width: 400px; /* 固定像素值 */
@@ -284,10 +296,11 @@ max-width: 700px;     /* 最大宽度为 700px（设计稿尺寸）*/
 ```
 
 ✅ **推荐**：
+
 ```css
 .element {
-  width: 90%;   /* 百分比 */
-  width: 90vw;  /* 视口宽度 */
+  width: 90%; /* 百分比 */
+  width: 90vw; /* 视口宽度 */
   width: calc(100% - 32px); /* 计算值 */
 }
 ```
@@ -296,9 +309,9 @@ max-width: 700px;     /* 最大宽度为 700px（设计稿尺寸）*/
 
 ```css
 .long-text {
-  overflow-wrap: break-word;  /* 自动换行 */
-  word-break: break-word;     /* 单词内换行 */
-  white-space: normal;        /* 正常换行 */
+  overflow-wrap: break-word; /* 自动换行 */
+  word-break: break-word; /* 单词内换行 */
+  white-space: normal; /* 正常换行 */
 }
 ```
 
@@ -306,8 +319,8 @@ max-width: 700px;     /* 最大宽度为 700px（设计稿尺寸）*/
 
 ```css
 img {
-  max-width: 100%;  /* 图片最大宽度为容器宽度 */
-  height: auto;     /* 保持纵横比 */
+  max-width: 100%; /* 图片最大宽度为容器宽度 */
+  height: auto; /* 保持纵横比 */
 }
 ```
 
@@ -316,11 +329,13 @@ img {
 ### 渲染性能
 
 ✅ **正面影响**：
+
 - 减少了浏览器需要处理的滚动方向
 - 简化了布局计算
 - 提升了滚动性能
 
 ⚠️ **注意事项**：
+
 - `overflow: hidden` 可能会触发新的层叠上下文
 - 在某些浏览器中可能影响固定定位元素
 
@@ -330,11 +345,11 @@ img {
 
 ## 浏览器兼容性
 
-| 属性 | Chrome | Safari | Firefox | Edge |
-|-----|--------|--------|---------|------|
-| `overflow-x: hidden` | ✅ 全版本 | ✅ 全版本 | ✅ 全版本 | ✅ 全版本 |
-| `max-width: 100vw` | ✅ 26+ | ✅ 6.1+ | ✅ 19+ | ✅ 12+ |
-| `box-sizing: border-box` | ✅ 10+ | ✅ 5.1+ | ✅ 29+ | ✅ 12+ |
+| 属性                     | Chrome    | Safari    | Firefox   | Edge      |
+| ------------------------ | --------- | --------- | --------- | --------- |
+| `overflow-x: hidden`     | ✅ 全版本 | ✅ 全版本 | ✅ 全版本 | ✅ 全版本 |
+| `max-width: 100vw`       | ✅ 26+    | ✅ 6.1+   | ✅ 19+    | ✅ 12+    |
+| `box-sizing: border-box` | ✅ 10+    | ✅ 5.1+   | ✅ 29+    | ✅ 12+    |
 
 **结论**：所有现代移动浏览器都完全支持所使用的 CSS 属性。
 
@@ -343,6 +358,7 @@ img {
 如果需要恢复横向滚动，只需移除以下 CSS 属性：
 
 ### App.vue
+
 ```css
 /* 移除或注释这些行 */
 overflow-x: hidden;
@@ -351,6 +367,7 @@ max-width: 100vw;
 ```
 
 ### variables.css
+
 ```css
 /* 移除或注释这些行 */
 overflow-x: hidden;
@@ -371,14 +388,13 @@ max-width: 100vw;
 ✅ 在多个层级设置 `overflow-x: hidden`  
 ✅ 限制最大宽度为视口宽度  
 ✅ 使用 `box-sizing: border-box` 避免宽度溢出  
-✅ 保持纵向滚动正常工作  
+✅ 保持纵向滚动正常工作
 
 ### 用户体验提升
 
 ✅ 防止意外横向滑动  
 ✅ 页面更加稳定  
 ✅ 符合移动端应用习惯  
-✅ 提升整体使用体验  
+✅ 提升整体使用体验
 
 修改完成后，整个 onboarding app 将不再支持横向滚动，提供更好的移动端使用体验。🎉
-

@@ -1,6 +1,7 @@
 # 代理商业绩情况前端最终实现总结
 
 ## 完成时间
+
 2025-11-26
 
 ## 改动概述
@@ -30,15 +31,15 @@ export interface PromoterPerformanceStats {
   downstream_order_count: number;
   downstream_invite_user_count: number;
   child_promoter_count: number;
-  
+
   // 新增字段
-  total_net_sales_amount_fen: number;      // 总净销售额
-  invite_net_sales_amount_fen: number;     // 直接邀请净销售额
+  total_net_sales_amount_fen: number; // 总净销售额
+  invite_net_sales_amount_fen: number; // 直接邀请净销售额
   downstream_net_sales_amount_fen: number; // 下级净销售额
-  total_refunded_commission_fen: number;      // 总退款佣金
-  invite_refunded_commission_fen: number;     // 直接邀请退款佣金
+  total_refunded_commission_fen: number; // 总退款佣金
+  invite_refunded_commission_fen: number; // 直接邀请退款佣金
   downstream_refunded_commission_fen: number; // 下级退款佣金
-  withdrawn_fen: number;                      // 已提现金额
+  withdrawn_fen: number; // 已提现金额
 }
 ```
 
@@ -50,7 +51,10 @@ export interface PromoterPerformanceStats {
 
 ```typescript
 function formatCount(...values: (number | null | undefined)[]) {
-  const total = values.reduce((sum, val) => sum + (typeof val === 'number' ? val : 0), 0);
+  const total = values.reduce(
+    (sum, val) => sum + (typeof val === 'number' ? val : 0),
+    0,
+  );
   return total || '—';
 }
 ```
@@ -62,12 +66,12 @@ function formatCount(...values: (number | null | undefined)[]) {
 完全按照 Figma 设计实现三个独立的统计模块，并根据代理等级控制显示：
 
 **显示逻辑**：
+
 - **普通代理（level = 2）**：只显示总收入模块
 - **高级代理（level = 1）**：显示所有三个模块
 
-
-
 **模块1: 总收入（直接推广+下级推广）**
+
 - 总-销售额-原价（元）
 - 累计总收入-分成（元）
 - 累计销售额-净收入（元）
@@ -77,6 +81,7 @@ function formatCount(...values: (number | null | undefined)[]) {
 - 已提现现金（元）- 独立行显示
 
 **模块2: 推广收益（直接推广）**
+
 - 邀请-销售额-原价（元）
 - 邀请收入-分成（元）
 - 邀请-销售额-净收入（元）
@@ -85,6 +90,7 @@ function formatCount(...values: (number | null | undefined)[]) {
 - 邀请-销售订单数
 
 **模块3: 下级收益（下级推广）**
+
 - 下级-销售额-原价（元）
 - 下级收益-分成（元）
 - 下级-销售额-净收入（元）
@@ -119,11 +125,13 @@ function formatCount(...values: (number | null | undefined)[]) {
 ## 页面对比
 
 ### 审核页面（onboarding-review）
+
 - ❌ 业绩情况模块已隐藏
 - ✅ 保留账号信息、主体信息、收款信息等模块
 - ✅ 保留审核操作功能
 
 ### 代理列表详情页（promoters）
+
 - ✅ 业绩情况模块完整实现
 - ✅ 按照 Figma 设计的三个模块展示
 - ✅ 所有 20 个指标完整展示
@@ -138,7 +146,7 @@ function formatCount(...values: (number | null | undefined)[]) {
 ### 总收入模块（7个指标）
 
 | UI 显示 | API 字段 | 计算逻辑 |
-|--------|---------|---------|
+| --- | --- | --- |
 | 总-销售额-原价（元） | `total_sales_amount_fen` | pending + withdrawable |
 | 累计总收入-分成（元） | `total_commission_fen` | 总佣金 |
 | 累计销售额-净收入（元） | `total_net_sales_amount_fen` | 销售额 - 退款 |
@@ -150,7 +158,7 @@ function formatCount(...values: (number | null | undefined)[]) {
 ### 推广收益模块（6个指标）
 
 | UI 显示 | API 字段 | 计算逻辑 |
-|--------|---------|---------|
+| --- | --- | --- |
 | 邀请-销售额-原价（元） | `invite_sales_amount_fen` | 直接邀请订单原价 |
 | 邀请收入-分成（元） | `invite_income_fen` | 直接邀请佣金 |
 | 邀请-销售额-净收入（元） | `invite_net_sales_amount_fen` | 邀请销售额 - 退款 |
@@ -161,7 +169,7 @@ function formatCount(...values: (number | null | undefined)[]) {
 ### 下级收益模块（7个指标）
 
 | UI 显示 | API 字段 | 计算逻辑 |
-|--------|---------|---------|
+| --- | --- | --- |
 | 下级-销售额-原价（元） | `downstream_sales_amount_fen` | 下级订单原价 |
 | 下级收益-分成（元） | `downstream_income_fen` | 从下级获得佣金 |
 | 下级-销售额-净收入（元） | `downstream_net_sales_amount_fen` | 下级销售额 - 退款 |
@@ -173,17 +181,20 @@ function formatCount(...values: (number | null | undefined)[]) {
 ## 技术实现细节
 
 ### 布局结构
+
 - ✅ 使用 6 列网格布局（`stats-grid-6`）
 - ✅ 特殊指标单独显示（已提现现金、下级代理人数）
 - ✅ 响应式布局和间距
 
 ### 数据处理
+
 - ✅ 金额格式化：分 → 元，保留两位小数
 - ✅ 数值累加：`formatCount` 支持多个参数
 - ✅ 空值处理：显示 "—"
 - ✅ 加载状态：显示"加载中..."
 
 ### 样式统一
+
 - ✅ 深色主题：背景 #1f1f1f
 - ✅ 卡片样式：#262626 背景，#434343 边框
 - ✅ 统计项样式：圆角 8px，内边距 16px
@@ -192,11 +203,13 @@ function formatCount(...values: (number | null | undefined)[]) {
 ## 向前兼容性保证
 
 ### API 层面
+
 - ✅ 后端保留所有现有字段
 - ✅ 新字段为附加信息
 - ✅ 老版本后端不返回新字段时显示 "—"
 
-### UI 层面  
+### UI 层面
+
 - ✅ 优雅降级：新字段不存在时显示 "—"
 - ✅ 不影响其他页面功能
 - ✅ 独立模块，便于维护
@@ -204,6 +217,7 @@ function formatCount(...values: (number | null | undefined)[]) {
 ## 已修改的文件清单
 
 ### 后端文件
+
 1. ✅ `migrations/044_update_performance_status.up.sql` - Migration
 2. ✅ `migrations/044_update_performance_status.down.sql` - Migration 回滚
 3. ✅ `pkg/entity/promoter_performance.go` - Entity 注释
@@ -215,11 +229,13 @@ function formatCount(...values: (number | null | undefined)[]) {
 9. ✅ `internal/service/promoter_service.go` - 业绩统计
 
 ### 前端文件
+
 1. ✅ `apps/web-antd/src/api/core/promoter.ts` - TypeScript 类型
 2. ✅ `apps/web-antd/src/views/agent-center/promoters/index.vue` - 代理列表详情页
 3. ✅ `apps/web-antd/src/views/agent-center/onboarding-review/index.vue` - 审核页面（隐藏业绩）
 
 ### 文档文件
+
 1. ✅ `docs/PERFORMANCE_WITHDRAWABLE_STATUS_TESTING.md` - 测试指南
 2. ✅ `docs/PERFORMANCE_WITHDRAWABLE_IMPLEMENTATION_SUMMARY.md` - 后端实施总结
 3. ✅ `docs/PROMOTER_PERFORMANCE_STATS_REDESIGN.md` - 设计分析
@@ -230,6 +246,7 @@ function formatCount(...values: (number | null | undefined)[]) {
 ## 测试检查清单
 
 ### 后端测试
+
 - [ ] 执行 migration 044
 - [ ] 重新生成 wire 代码（admin_backend 和 backend_server）
 - [ ] 编译并启动服务
@@ -241,6 +258,7 @@ function formatCount(...values: (number | null | undefined)[]) {
 #### 代理列表详情页
 
 **高级代理（level = 1）测试**：
+
 - [ ] 打开代理列表页面
 - [ ] 点击一个高级代理查看详情
 - [ ] 验证业绩情况模块正确显示
@@ -252,18 +270,21 @@ function formatCount(...values: (number | null | undefined)[]) {
 - [ ] 验证已提现金额显示
 
 **普通代理（level = 2）测试**：
+
 - [ ] 点击一个普通代理查看详情
 - [ ] **验证只显示总收入模块**
 - [ ] **验证推广收益和下级收益模块已隐藏**
 - [ ] 验证总收入模块的 7 个指标正确显示
 
 #### 审核页面
+
 - [ ] 打开审核页面
 - [ ] 点击某个待审核代理查看详情
 - [ ] **验证业绩情况模块已隐藏**
 - [ ] 验证其他模块正常显示
 
 ### 兼容性测试
+
 - [ ] 使用老版本后端 API 测试前端显示
 - [ ] 验证新字段为 undefined 时显示 "—"
 - [ ] 验证加载状态
@@ -272,11 +293,13 @@ function formatCount(...values: (number | null | undefined)[]) {
 ## API 示例
 
 ### 请求
+
 ```
 GET /admin/api/promoters/review/:promoter_id/performance
 ```
 
 ### 响应示例
+
 ```json
 {
   "code": 0,
@@ -310,21 +333,24 @@ GET /admin/api/promoters/review/:promoter_id/performance
 ### 后端部署
 
 1. 执行数据库 migration：
+
 ```bash
 cd /Users/qingyuan/qingyuaner/mahjong-backend
 # 根据你的 migration 工具执行 migration 044
 ```
 
 2. 更新 Wire 依赖注入：
+
 ```bash
 # backend_server
 cd cmd/backend_server/wire && wire
 
-# admin_backend  
+# admin_backend
 cd cmd/admin_backend/wire && wire
 ```
 
 3. 编译并部署：
+
 ```bash
 make build
 # 部署二进制文件
@@ -333,6 +359,7 @@ make build
 ### 前端部署
 
 1. 构建前端：
+
 ```bash
 cd /Users/qingyuan/qingyuaner/vue-vben-admin
 pnpm build
@@ -357,7 +384,7 @@ pnpm build
 
 ```sql
 -- 验证某个代理的统计
-SELECT 
+SELECT
     promoter_id,
     -- pending + withdrawable 金额
     SUM(CASE WHEN order_status IN ('pending', 'withdrawable') THEN commission_amount_fen ELSE 0 END) as earnings,
@@ -394,4 +421,3 @@ GROUP BY promoter_id;
 - ✅ 文档完备
 - ⏳ 待测试验证
 - ⏳ 待部署上线
-

@@ -3,6 +3,7 @@
 ## 已完成 ✅
 
 ### 后端接口（100%）
+
 1. ✅ `GET /api/promoter/withdrawal/balance` - 提现余额详情
 2. ✅ `GET /api/promoter/self-promotion-stats` - 自身推广统计
 3. ✅ `GET /api/promoter/commission-rates` - 佣金比例配置
@@ -10,6 +11,7 @@
 5. ✅ Wire 依赖注入配置
 
 ### 前端基础（60%）
+
 1. ✅ API 接口定义 (`src/api/agent.ts`)
 2. ✅ Pinia Store (`src/store/agent.ts`)
 3. ✅ AgentHome 主页面骨架 (`src/pages/AgentHome.vue`)
@@ -23,6 +25,7 @@
 **参考 Figma**: Node `1:5448` (账号状态)
 
 **实现要点**:
+
 ```vue
 <template>
   <div class="account-status">
@@ -86,6 +89,7 @@
 **数据来源**: `useAgentStore().withdrawalBalance`
 
 **实现要点**:
+
 - 总收益、待结算、可提现三个数据项
 - 金额单位转换：`fen / 100` 保留2位小数
 - 右上角按钮："收入明细" + "立即提现"
@@ -93,6 +97,7 @@
 - 背景使用 `background: rgba(255, 227, 149, 0.1)`
 
 **数字格式化**:
+
 ```typescript
 function formatMoney(fen: number): string {
   return (fen / 100).toFixed(2);
@@ -108,24 +113,27 @@ function formatMoney(fen: number): string {
 **数据来源**: `useAgentStore().childrenStats`
 
 **实现要点**:
+
 - 仅一级代理显示 (`v-if="agentStore.promoterInfo?.level === 1"`)
 - 标题显示人数：`{{ childrenStats.length }} 人`
 - 分成比例：从 `commissionRates.level1_from_level2` 获取
 - 收益数据聚合：
+
   ```typescript
-  const totalEarnings = computed(() => 
-    childrenStats.value.reduce((sum, child) => 
-      sum + child.parent_share_from_child_fen, 0) / 100
+  const totalEarnings = computed(
+    () =>
+      childrenStats.value.reduce(
+        (sum, child) => sum + child.parent_share_from_child_fen,
+        0,
+      ) / 100,
   );
-  
+
   const totalOrders = computed(() =>
-    childrenStats.value.reduce((sum, child) => 
-      sum + child.paid_order_count, 0)
+    childrenStats.value.reduce((sum, child) => sum + child.paid_order_count, 0),
   );
-  
+
   const totalInvites = computed(() =>
-    childrenStats.value.reduce((sum, child) => 
-      sum + child.invite_count, 0)
+    childrenStats.value.reduce((sum, child) => sum + child.invite_count, 0),
   );
   ```
 
@@ -138,6 +146,7 @@ function formatMoney(fen: number): string {
 **数据来源**: `useAgentStore().selfPromotionStats` + `commissionRates`
 
 **实现要点**:
+
 - 显示邀请码（大号字体，金色）
 - 分成比例说明：根据 level 显示不同比例
   - Level 1: `commissionRates.level1_direct` (60%/40%)
@@ -151,11 +160,12 @@ function formatMoney(fen: number): string {
 **文件**: `src/router/index.ts`
 
 **添加路由**:
+
 ```typescript
 {
   path: '/agent/home',
   component: () => import('#/pages/AgentHome.vue'),
-  meta: { 
+  meta: {
     title: '代理主页',
     requiresAuth: true,
     requiresActive: true  // 需要active状态
@@ -164,10 +174,11 @@ function formatMoney(fen: number): string {
 ```
 
 **更新路由守卫**:
+
 ```typescript
 router.beforeEach(async (to, from, next) => {
   // ... 现有逻辑
-  
+
   if (status === 'active' || status === 'pass') {
     // 审核通过 -> 跳转到代理主页
     if (to.path !== '/agent/home') {
@@ -175,7 +186,7 @@ router.beforeEach(async (to, from, next) => {
       return;
     }
   }
-  
+
   // ...
 });
 ```
@@ -183,22 +194,25 @@ router.beforeEach(async (to, from, next) => {
 ### 6. 样式规范
 
 **CSS 变量使用** (已在项目中定义):
+
 ```css
---basic-0: #141414;  /* 背景色 */
---basic-1: #1f1f1f;  /* 卡片背景 */
---basic-2: #262626;  /* 深色卡片背景 */
---basic-3: #434343;  /* 边框 */
---basic-5: #8c8c8c;  /* 辅助文字 */
+--basic-0: #141414; /* 背景色 */
+--basic-1: #1f1f1f; /* 卡片背景 */
+--basic-2: #262626; /* 深色卡片背景 */
+--basic-3: #434343; /* 边框 */
+--basic-5: #8c8c8c; /* 辅助文字 */
 --basic-10: #ffffff; /* 主文字 */
 --primary-6: #ffe395; /* 金色主色 */
 ```
 
 **字体规范**:
+
 - 标题：`font-size: 16px; font-weight: 600`
 - 金额：`font-size: 18-20px; font-family: 'DingTalk JinBuTi'` (数字字体)
 - 正文：`font-size: 14px; font-weight: 400`
 
 **卡片样式**:
+
 ```css
 .card {
   background: var(--basic-2);
@@ -221,6 +235,7 @@ router.beforeEach(async (to, from, next) => {
 ```
 
 或自定义实现：
+
 ```typescript
 let startY = 0;
 let isPulling = false;
@@ -243,7 +258,7 @@ function handleTouchMove(e: TouchEvent) {
 ## Figma 数据对照表
 
 | UI 元素 | Figma Node | 数据来源 | API 字段 |
-|---------|-----------|----------|----------|
+| --- | --- | --- | --- |
 | 总收益 | 122:5255 | withdrawal/balance | total_earnings_fen |
 | 待结算 | 122:5255 | withdrawal/balance | pending_settlement_fen |
 | 可提现 | 122:5255 | withdrawal/balance | withdrawable_fen |
@@ -283,4 +298,3 @@ function handleTouchMove(e: TouchEvent) {
 4. **性能优化**：使用计算属性缓存聚合数据
 5. **响应式设计**：确保在375px基准下完美显示
 6. **轮询管理**：页面卸载时清除定时器，避免内存泄漏
-

@@ -6,11 +6,10 @@
   - POST /api/admin/auth/send-code
   - POST /api/admin/auth/login
   - POST /api/promoter/submit-info
-  - GET  /api/promoter/status
+  - GET /api/promoter/status
 
 Dev:
+
 ```bash
 pnpm -C apps/promoter-onboarding-h5 dev
 ```
-
-

@@ -26,6 +26,7 @@
 ### 2. 颜色变量分类
 
 #### 主色调（金色系）
+
 - `--agent-primary`: #d9a34e - 主要交互色
 - `--agent-primary-hover`: #f0b860 - hover状态
 - `--agent-primary-light`: rgba(217, 163, 78, 0.1) - 浅色背景
@@ -33,6 +34,7 @@
 - `--agent-primary-border-hover`: rgba(217, 163, 78, 0.6) - hover边框
 
 #### 背景色
+
 - `--agent-bg-primary`: #000000 - 主背景
 - `--agent-bg-secondary`: #141414 - 次级背景
 - `--agent-bg-card`: #1a1a1a - 卡片背景
@@ -40,17 +42,20 @@
 - `--agent-bg-overlay`: rgba(0, 0, 0, 0.85) - 遮罩背景
 
 #### 文字颜色
+
 - `--agent-text-primary`: #ffffff - 主要文字
 - `--agent-text-secondary`: #8c8c8c - 次要文字
 - `--agent-text-tertiary`: #595959 - 三级文字
 - `--agent-text-disabled`: #434343 - 禁用文字
 
 #### 边框颜色
+
 - `--agent-border-primary`: #595959 - 主要边框
 - `--agent-border-secondary`: #434343 - 次要边框
 - `--agent-border-light`: #2a2a2a - 浅色边框
 
 #### 状态颜色
+
 - `--agent-success`: #52c41a - 成功
 - `--agent-warning`: #faad14 - 警告
 - `--agent-error`: #ff6e6b - 错误
@@ -62,6 +67,7 @@
 ### 3. 常用样式示例
 
 #### 卡片样式
+
 ```css
 .card {
   background: var(--agent-bg-card);
@@ -72,6 +78,7 @@
 ```
 
 #### 按钮样式（金色主按钮）
+
 ```css
 .btn-primary {
   background: transparent;
@@ -89,6 +96,7 @@
 ```
 
 #### 输入框样式
+
 ```css
 .input {
   background: var(--agent-bg-input);
@@ -110,6 +118,7 @@
 ```
 
 #### 状态标签
+
 ```css
 /* 待处理 */
 .tag-pending {
@@ -134,6 +143,7 @@
 ```
 
 #### 代理等级标签
+
 ```css
 /* 高级代理 */
 .level-high {
@@ -181,6 +191,7 @@
 ### 替换硬编码颜色
 
 **旧代码：**
+
 ```css
 .element {
   background: #141414;
@@ -190,6 +201,7 @@
 ```
 
 **新代码：**
+
 ```css
 .element {
   background: var(--agent-bg-secondary);
@@ -200,21 +212,21 @@
 
 ### 常见颜色映射表
 
-| 旧颜色值 | CSS变量 | 用途 |
-|---------|---------|------|
-| #d9a34e | --agent-primary | 金色主色 |
-| #f0b860 | --agent-primary-hover | 金色hover |
-| #000000 | --agent-bg-primary | 主背景 |
-| #141414 | --agent-bg-secondary | 次级背景 |
-| #1a1a1a | --agent-bg-card | 卡片背景 |
-| #ffffff | --agent-text-primary | 主要文字 |
-| #8c8c8c | --agent-text-secondary | 次要文字 |
-| #595959 | --agent-border-primary | 主要边框 |
-| #434343 | --agent-border-secondary | 次要边框 |
-| #52c41a | --agent-success | 成功状态 |
-| #faad14 | --agent-warning | 警告状态 |
-| #ff6e6b | --agent-error | 错误状态 |
-| #1890ff | --agent-info | 信息状态 |
+| 旧颜色值 | CSS变量                  | 用途      |
+| -------- | ------------------------ | --------- |
+| #d9a34e  | --agent-primary          | 金色主色  |
+| #f0b860  | --agent-primary-hover    | 金色hover |
+| #000000  | --agent-bg-primary       | 主背景    |
+| #141414  | --agent-bg-secondary     | 次级背景  |
+| #1a1a1a  | --agent-bg-card          | 卡片背景  |
+| #ffffff  | --agent-text-primary     | 主要文字  |
+| #8c8c8c  | --agent-text-secondary   | 次要文字  |
+| #595959  | --agent-border-primary   | 主要边框  |
+| #434343  | --agent-border-secondary | 次要边框  |
+| #52c41a  | --agent-success          | 成功状态  |
+| #faad14  | --agent-warning          | 警告状态  |
+| #ff6e6b  | --agent-error            | 错误状态  |
+| #1890ff  | --agent-info             | 信息状态  |
 
 ## 最佳实践
 
@@ -230,10 +242,10 @@
 
 ```css
 /* 格式：--agent-[类别]-[语义] */
---agent-bg-new: #color;      /* 背景类 */
---agent-text-new: #color;    /* 文字类 */
---agent-border-new: #color;  /* 边框类 */
---agent-status-new: #color;  /* 状态类 */
+--agent-bg-new: #color; /* 背景类 */
+--agent-text-new: #color; /* 文字类 */
+--agent-border-new: #color; /* 边框类 */
+--agent-status-new: #color; /* 状态类 */
 ```
 
 ## 维护
@@ -244,4 +256,3 @@
 
 **版本**: 1.0.0  
 **最后更新**: 2024
-

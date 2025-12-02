@@ -7,6 +7,7 @@
 ### 1. 卡片组件迁移
 
 **迁移前：**
+
 ```vue
 <style scoped>
 .detail-card {
@@ -24,6 +25,7 @@
 ```
 
 **迁移后：**
+
 ```vue
 <style scoped>
 @import './styles/colors.css';
@@ -45,6 +47,7 @@
 ### 2. 按钮组件迁移
 
 **迁移前：**
+
 ```vue
 <style scoped>
 .action-btn {
@@ -63,6 +66,7 @@
 ```
 
 **迁移后：**
+
 ```vue
 <style scoped>
 @import './styles/colors.css';
@@ -86,6 +90,7 @@
 ### 3. 表单输入框迁移
 
 **迁移前：**
+
 ```vue
 <style scoped>
 .field-value {
@@ -112,6 +117,7 @@
 ```
 
 **迁移后：**
+
 ```vue
 <style scoped>
 @import './styles/colors.css';
@@ -142,6 +148,7 @@
 ### 4. 状态标签迁移
 
 **迁移前：**
+
 ```vue
 <style scoped>
 .status-pending {
@@ -171,6 +178,7 @@
 ```
 
 **迁移后（方式1 - 使用CSS变量）：**
+
 ```vue
 <style scoped>
 @import './styles/colors.css';
@@ -201,6 +209,7 @@
 ```
 
 **迁移后（方式2 - 使用工具类）：**
+
 ```vue
 <template>
   <span class="agent-tag-pending">待处理</span>
@@ -217,6 +226,7 @@
 ### 5. 等级标签迁移
 
 **迁移前：**
+
 ```vue
 <style scoped>
 .level-tag {
@@ -240,6 +250,7 @@
 ```
 
 **迁移后（方式1 - 使用CSS变量）：**
+
 ```vue
 <style scoped>
 @import './styles/colors.css';
@@ -265,6 +276,7 @@
 ```
 
 **迁移后（方式2 - 使用工具类）：**
+
 ```vue
 <template>
   <span class="agent-tag-level-high">高级代理</span>
@@ -338,6 +350,7 @@ A: 会的。CSS变量在 `:root` 中定义，是全局的，即使在 `scoped` �
 
 **Q: 如何为特定组件覆盖颜色变量？**  
 A: 可以在组件的样式中重新定义变量：
+
 ```css
 .my-component {
   --agent-primary: #custom-color;
@@ -350,10 +363,10 @@ A: 技术上可以，但不推荐。为了保持一致性，建议统一使用CS
 
 **Q: 如何处理第三方组件库的颜色？**  
 A: 可以使用 `:deep()` 选择器来覆盖第三方组件的样式：
+
 ```css
 .my-wrapper :deep(.ant-btn-primary) {
   background: var(--agent-primary);
   border-color: var(--agent-primary);
 }
 ```
-

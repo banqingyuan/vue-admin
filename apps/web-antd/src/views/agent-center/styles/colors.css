@@ -1,0 +1,152 @@
+/**
+ * Agent Center 统一颜色系统
+ * 用于代理中心所有页面的颜色管理
+ * 支持亮色/暗色双模式
+ */
+
+/* ==================== 亮色模式（默认） ==================== */
+:root {
+  --primary-1: rgba(32, 30, 26, 1);
+  --primary-2: rgba(79, 72, 52, 1);
+  --primary-3: rgba(79, 72, 52, 1);
+  --primary-4: rgba(137, 124, 85, 1);
+  --primary-5: rgba(196, 175, 117, 1);
+  --primary-6: rgba(229, 204, 134, 1);
+  --primary-7: rgba(255, 227, 149, 1);
+  --primary-8: rgba(255, 236, 181, 1);
+  --primary-9: rgba(255, 242, 204, 1);
+  --primary-10: rgba(255, 246, 221, 1);
+  --primary-11: rgba(255, 249, 231, 1);
+  --primary-12: rgba(255, 253, 240, 1);
+
+  --agent-gray-10: rgba(45, 37, 23, 1);
+  --agent-gray-9:  rgba(55, 45, 28, 1);
+  --agent-gray-8:  rgba(69, 56, 35, 1);
+  --agent-gray-7:  rgba(90, 73, 47, 1);
+  --agent-gray-6:  rgba(111, 91, 58, 1);
+  --agent-gray-5:  rgba(163, 142, 108, 1);
+  --agent-gray-4:  rgba(211, 196, 170, 1);
+  --agent-gray-3:  rgba(240, 229, 211, 1);
+  --agent-gray-2:  rgba(249, 245, 237, 1);
+  --agent-gray-1:  rgba(254, 252, 248, 1);
+  --agent-gray-0:  rgba(255, 255, 255, 1);
+
+  --danger-6: rgba(255, 66, 69, 1);
+}
+
+/* ==================== 暗色模式 ==================== */
+.dark {
+  --primary-1: rgba(255, 253, 240, 1);
+  --primary-2: rgba(255, 249, 231, 1);
+  --primary-3: rgba(255, 246, 221, 1);
+  --primary-4: rgba(255, 242, 204, 1);
+  --primary-5: rgba(255, 236, 181, 1);
+  --primary-6: rgba(255, 227, 149, 1);
+  --primary-7: rgba(229, 204, 134, 1);
+  --primary-8: rgba(196, 175, 117, 1);
+  --primary-9: rgba(137, 124, 85, 1);
+  --primary-10: rgba(79, 72, 52, 1);
+  --primary-11: rgba(51, 45, 30, 1);
+  --primary-12: rgba(32, 30, 20, 1);
+
+  /** Ant Design 灰阶基础色 - 暗色模式下的灰阶 */
+  --agent-gray-10: rgba(255, 255, 255, 1);
+  --agent-gray-9:  rgba(250, 250, 250, 1);
+  --agent-gray-8:  rgba(245, 245, 245, 1);
+  --agent-gray-7:  rgba(240, 240, 240, 1);
+  --agent-gray-6:  rgba(191, 191, 191, 1);
+  --agent-gray-5:  rgba(140, 140, 140, 1);
+  --agent-gray-4:  rgba(89, 89, 89, 1);
+  --agent-gray-3:  rgba(67, 67, 67, 1);
+  --agent-gray-2:  rgba(38, 38, 38, 1);
+  --agent-gray-1:  rgba(31, 31, 31, 1);
+  --agent-gray-0:  rgba(20, 20, 20, 1);
+
+  --danger-6: rgba(255, 66, 69, 1);
+}
+
+/* ==================== 语义化颜色类 ==================== */
+
+/* 文本颜色 */
+.agent-text-primary {
+  color: var(--agent-text-primary) !important;
+}
+
+.agent-text-secondary {
+  color: var(--agent-text-secondary) !important;
+}
+
+.agent-text-tertiary {
+  color: var(--agent-text-tertiary) !important;
+}
+
+.agent-text-gold {
+  color: var(--agent-primary) !important;
+}
+
+.agent-text-success {
+  color: var(--agent-success) !important;
+}
+
+.agent-text-warning {
+  color: var(--agent-warning) !important;
+}
+
+.agent-text-error {
+  color: var(--agent-error) !important;
+}
+
+/* 背景颜色 */
+.agent-bg-primary {
+  background-color: var(--agent-bg-primary) !important;
+}
+
+.agent-bg-secondary {
+  background-color: var(--agent-bg-secondary) !important;
+}
+
+.agent-bg-card {
+  background-color: var(--agent-bg-card) !important;
+}
+
+/* 边框颜色 */
+.agent-border-primary {
+  border-color: var(--agent-border-primary) !important;
+}
+
+.agent-border-gold {
+  border-color: var(--agent-primary) !important;
+}
+
+/* 状态标签 */
+.agent-tag-pending {
+  color: var(--agent-pending);
+  background: var(--agent-pending-bg);
+  border: 1px solid var(--agent-pending);
+}
+
+.agent-tag-approved {
+  color: var(--agent-approved);
+  background: var(--agent-approved-bg);
+  border: 1px solid var(--agent-approved);
+}
+
+.agent-tag-rejected {
+  color: var(--agent-rejected);
+  background: var(--agent-rejected-bg);
+  border: 1px solid var(--agent-rejected);
+}
+
+/* 代理等级标签 */
+.agent-tag-level-high {
+  color: var(--agent-level-high);
+  background: var(--agent-level-high-bg);
+  border: 1px solid var(--agent-level-high);
+}
+
+.agent-tag-level-normal {
+  color: var(--agent-level-normal);
+  background: var(--agent-level-normal-bg);
+  border: 1px solid var(--agent-level-normal);
+}
+

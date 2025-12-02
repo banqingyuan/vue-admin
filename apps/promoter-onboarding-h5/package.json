@@ -1,0 +1,29 @@
+{
+  "name": "@vben/promoter-onboarding-h5",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "pnpm vite --mode development",
+    "build": "pnpm vite build --mode production",
+    "preview": "vite preview",
+    "typecheck": "vue-tsc --noEmit --skipLibCheck"
+  },
+  "imports": {
+    "#/*": "./src/*"
+  },
+  "dependencies": {
+    "@vben/styles": "workspace:*",
+    "axios": "catalog:",
+    "pinia": "catalog:",
+    "qrcode": "catalog:",
+    "vue": "catalog:",
+    "vue-router": "catalog:"
+  },
+  "devDependencies": {
+    "@vben/vite-config": "workspace:*",
+    "typescript": "catalog:",
+    "vite": "catalog:",
+    "vue-tsc": "catalog:"
+  }
+}

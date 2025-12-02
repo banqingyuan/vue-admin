@@ -414,10 +414,10 @@ onBeforeUnmount(() => {
           </div>
 
           <div class="download-actions">
-            <button id="confirmDownloadButton" class="action-button">
+            <button id="confirmBBoxDownloadButton" class="action-button">
               开始下载
             </button>
-            <button id="cancelDownloadSettingButton" class="action-button">
+            <button id="cancelBBoxDownloadButton" class="action-button">
               取消
             </button>
           </div>
@@ -481,10 +481,10 @@ onBeforeUnmount(() => {
               </small>
             </div>
             <div class="download-actions">
-              <button id="confirmDownloadButton" class="action-button">
+              <button id="confirmBatchDownloadButton" class="action-button">
                 开始下载
               </button>
-              <button id="cancelDownloadSettingButton" class="action-button">
+              <button id="cancelBatchDownloadButton" class="action-button">
                 取消
               </button>
             </div>

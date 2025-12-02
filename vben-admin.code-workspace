@@ -9,6 +9,10 @@
       "path": "apps/backend-mock",
     },
     {
+      "name": "@vben/promoter-onboarding-h5",
+      "path": "apps/promoter-onboarding-h5",
+    },
+    {
       "name": "@vben/web-agent",
       "path": "apps/web-agent",
     },

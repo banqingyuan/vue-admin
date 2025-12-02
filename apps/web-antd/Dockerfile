@@ -27,18 +27,22 @@ COPY internal ./internal
 COPY packages ./packages
 COPY scripts ./scripts
 COPY apps/web-antd ./apps/web-antd
+COPY apps/promoter-onboarding-h5 ./apps/promoter-onboarding-h5
 
 # 安装依赖
 RUN --mount=type=cache,id=pnpm-store,target=/pnpm/store \
     pnpm install --frozen-lockfile
 
 # 构建应用
+# 构建应用
 RUN pnpm run build:antd
+RUN pnpm run build --filter=@vben/promoter-onboarding-h5
 
 # 验证构建产物
 RUN ls -la /app/apps/web-antd/dist/ && \
     ls -la /app/apps/web-antd/dist/_app.config.js || echo "No _app.config.js found" && \
-    find /app/apps/web-antd/dist -name "*.js" | head -10
+    find /app/apps/web-antd/dist -name "*.js" | head -10 && \
+    ls -la /app/apps/promoter-onboarding-h5/dist/
 
 FROM nginx:stable-alpine AS production
 
@@ -50,7 +54,9 @@ RUN echo 'application/javascript mjs;' > /etc/nginx/conf.d/mjs.conf && \
     rm -rf /etc/nginx/conf.d/default.conf
 
 # 拷贝构建产物
-COPY --from=builder /app/apps/web-antd/dist /usr/share/nginx/html
+# 拷贝构建产物
+COPY --from=builder /app/apps/web-antd/dist /usr/share/nginx/html/web-antd
+COPY --from=builder /app/apps/promoter-onboarding-h5/dist /usr/share/nginx/html/promoter-onboarding-h5
 
 # 创建 nginx 配置模板
 RUN printf "\
@@ -103,7 +109,7 @@ http {\n\
     server {\n\
         listen 8080;\n\
         server_name _;\n\
-        root /usr/share/nginx/html;\n\
+        root /usr/share/nginx/html/web-antd;\n\
         index index.html;\n\
         \n\
         add_header X-Frame-Options \"SAMEORIGIN\" always;\n\
@@ -130,6 +136,9 @@ http {\n\
             sendfile on;\n\
             tcp_nopush on;\n\
             tcp_nodelay on;\n\
+            \n\
+            # 开启gzip\n\
+            gzip_static on;\n\
         }\n\
         \n\
         location ~* \\.(css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)\$ {\n\
@@ -169,6 +178,62 @@ http {\n\
             add_header Content-Type text/plain;\n\
         }\n\
     }\n\
+    \n\
+    server {\n\
+        listen 8081;\n\
+        server_name _;\n\
+        root /usr/share/nginx/html/promoter-onboarding-h5;\n\
+        index index.html;\n\
+        \n\
+        add_header X-Frame-Options \"SAMEORIGIN\" always;\n\
+        add_header X-Content-Type-Options \"nosniff\" always;\n\
+        add_header X-XSS-Protection \"1; mode=block\" always;\n\
+        add_header Referrer-Policy \"strict-origin-when-cross-origin\" always;\n\
+        \n\
+        location ~* \\.(js|mjs)\$ {\n\
+            expires 1y;\n\
+            add_header Cache-Control \"public, immutable\";\n\
+            add_header X-Content-Type-Options \"nosniff\";\n\
+            add_header Access-Control-Allow-Origin \"*\";\n\
+            try_files \$uri =404;\n\
+            \n\
+            sendfile on;\n\
+            tcp_nopush on;\n\
+            tcp_nodelay on;\n\
+            gzip_static on;\n\
+        }\n\
+        \n\
+        location ~* \\.(css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)\$ {\n\
+            expires 1y;\n\
+            add_header Cache-Control \"public, immutable\";\n\
+            add_header X-Content-Type-Options \"nosniff\";\n\
+            try_files \$uri =404;\n\
+        }\n\
+        \n\
+        location ^~ /api/ {\n\
+            proxy_pass \${BACKEND_URL};\n\
+            proxy_set_header Host \$host;\n\
+            proxy_set_header X-Real-IP \$remote_addr;\n\
+            proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;\n\
+            proxy_set_header X-Forwarded-Proto \$scheme;\n\
+            proxy_http_version 1.1;\n\
+            proxy_set_header Connection \"\";\n\
+            proxy_buffering off;\n\
+            proxy_redirect off;\n\
+            \n\
+            proxy_connect_timeout 300s;\n\
+            proxy_send_timeout 300s;\n\
+            proxy_read_timeout 300s;\n\
+        }\n\
+        \n\
+        location / {\n\
+            try_files \$uri \$uri/ @fallback;\n\
+        }\n\
+        \n\
+        location @fallback {\n\
+            rewrite ^.*\$ /index.html last;\n\
+        }\n\
+    }\n\
 }\n" > /etc/nginx/nginx.conf.template
 
 # 创建启动脚本
@@ -185,15 +250,21 @@ echo \"VITE_GLOB_API_URL: \$VITE_GLOB_API_URL\"\n\
 \n\
 envsubst '\${BACKEND_URL}' < /etc/nginx/nginx.conf.template > /etc/nginx/nginx.conf\n\
 \n\
-if [ -f \"/usr/share/nginx/html/_app.config.js\" ]; then\n\
+if [ -f \"/usr/share/nginx/html/web-antd/_app.config.js\" ]; then\n\
     echo \"Updating _app.config.js with runtime config...\"\n\
-    cp /usr/share/nginx/html/_app.config.js /usr/share/nginx/html/_app.config.js.bak\n\
-    sed -i \"s|\\\"VITE_GLOB_API_URL\\\":\\\"[^\\\"]*\\\"|\\\"VITE_GLOB_API_URL\\\":\\\"\$VITE_GLOB_API_URL\\\"|g\" /usr/share/nginx/html/_app.config.js\n\
+    cp /usr/share/nginx/html/web-antd/_app.config.js /usr/share/nginx/html/web-antd/_app.config.js.bak\n\
+    sed -i \"s|\\\"VITE_GLOB_API_URL\\\":\\\"[^\\\"]*\\\"|\\\"VITE_GLOB_API_URL\\\":\\\"\$VITE_GLOB_API_URL\\\"|g\" /usr/share/nginx/html/web-antd/_app.config.js\n\
     echo \"Updated _app.config.js:\"\n\
-    head -n 5 /usr/share/nginx/html/_app.config.js\n\
+    head -n 5 /usr/share/nginx/html/web-antd/_app.config.js\n\
 else\n\
     echo \"Warning: _app.config.js not found, creating minimal version...\"\n\
-    printf \"window._VBEN_ADMIN_PRO_APP_CONF_ = {\\n  \\\"VITE_GLOB_API_URL\\\": \\\"\$VITE_GLOB_API_URL\\\"\\n};\\nObject.freeze(window._VBEN_ADMIN_PRO_APP_CONF_);\\nObject.defineProperty(window, \\\"_VBEN_ADMIN_PRO_APP_CONF_\\\", { configurable: false, writable: false });\" > /usr/share/nginx/html/_app.config.js\n\
+    printf \"window._VBEN_ADMIN_PRO_APP_CONF_ = {\\n  \\\"VITE_GLOB_API_URL\\\": \\\"\$VITE_GLOB_API_URL\\\"\\n};\\nObject.freeze(window._VBEN_ADMIN_PRO_APP_CONF_);\\nObject.defineProperty(window, \\\"_VBEN_ADMIN_PRO_APP_CONF_\\\", { configurable: false, writable: false });\" > /usr/share/nginx/html/web-antd/_app.config.js\n\
+fi\n\
+\n\
+if [ -f \"/usr/share/nginx/html/promoter-onboarding-h5/_app.config.js\" ]; then\n\
+    echo \"Updating promoter-onboarding-h5 _app.config.js with runtime config...\"\n\
+    cp /usr/share/nginx/html/promoter-onboarding-h5/_app.config.js /usr/share/nginx/html/promoter-onboarding-h5/_app.config.js.bak\n\
+    sed -i \"s|\\\"VITE_GLOB_API_URL\\\":\\\"[^\\\"]*\\\"|\\\"VITE_GLOB_API_URL\\\":\\\"\$VITE_GLOB_API_URL\\\"|g\" /usr/share/nginx/html/promoter-onboarding-h5/_app.config.js\n\
 fi\n\
 \n\
 echo \"Configuration setup completed.\"\n" > /docker-entrypoint.d/40-setup-config.sh
@@ -204,7 +275,7 @@ RUN chmod +x /docker-entrypoint.d/40-setup-config.sh
 ENV BACKEND_URL=http://admin-backend:8001
 ENV VITE_GLOB_API_URL=/api
 
-EXPOSE 8080
+EXPOSE 8080 8081
 
 # 健康检查
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \

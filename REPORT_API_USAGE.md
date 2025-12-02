@@ -463,6 +463,7 @@ report_service.go: GenerateReport()
 1. **渠道商看板**: `apps/web-antd/src/views/distributor/board/index.vue`
 2. **管理员看板**: `apps/web-antd/src/views/data-board/distributor/index.vue`
 3. **通用 Hook**: `apps/web-antd/src/composables/useDistributorBoard.ts`
+4. **自然量渠道特殊规则**: 若渠道包名为“ASO新/ASO旧”，后端会自动将真实渠道名折叠为“自然量”，并在北京时间 2025-11-16 00:00:00 处做注册时间切分，同时强制限定为 iOS 设备数据，前端无需感知。
 
 ---
 

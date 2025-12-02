@@ -192,10 +192,10 @@ export default function initMain() {
       '#currentFolderName',
     ) as HTMLElement;
     const confirmDownloadButton = document.querySelector(
-      '#confirmDownloadButton',
+      '#confirmBatchDownloadButton',
     ) as HTMLButtonElement;
     const cancelDownloadSettingButton = document.querySelector(
-      '#cancelDownloadSettingButton',
+      '#cancelBatchDownloadButton',
     ) as HTMLButtonElement;
     const randomDownloadCheckbox = document.querySelector(
       '#randomDownloadCheckbox',

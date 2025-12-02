@@ -1,0 +1,195 @@
+/* ==========================================================================
+   Design Tokens from Figma - AI扑克记牌器代理合作平台
+   ========================================================================== */
+
+/* Colors - Basic */
+:root {
+  --basic-0: #141414;
+  --basic-1: #1f1f1f;
+  --basic-2: #262626;
+  --basic-3: #434343;
+  --basic-4: #595959;
+  --basic-5: #8c8c8c;
+  --basic-6: #bfbfbf;
+  --basic-7: #f0f0f0;
+  --basic-10: #ffffff;
+  
+  /* Primary/Golden */
+  --primary-3: #fff6dd;
+  --primary-4: #fff2cc;
+  --primary-5: #ffecb5;
+  --primary-6: #ffe395;
+  --primary-11: #332d1e;
+  --primary-12: #201e1a;
+  
+  /* Primary Transparent */
+  --primary-6-alpha-5: rgba(255, 227, 149, 0.05);
+  --primary-6-alpha-20: rgba(255, 227, 149, 0.2);
+  --primary-6-alpha-25: rgba(255, 227, 149, 0.25);
+  --primary-6-alpha-50: rgba(255, 227, 149, 0.5);
+  
+  /* Status Colors */
+  --success-6: #00e096;
+  --danger-5: #ff5962;
+  --danger-6: #ff3140;
+  --warning-8: #b86e00;
+  --warning-11: #372b11;
+  --primary-4: #fff2cc;
+  
+  /* Black Transparent */
+  --black-alpha-40: rgba(0, 0, 0, 0.4);
+  --black-alpha-10: rgba(0, 0, 0, 0.1);
+  
+  /* White Transparent */
+  --white-alpha-20: rgba(255, 255, 255, 0.2);
+  --white-alpha-50: rgba(255, 255, 255, 0.5);
+  --white-alpha-70: rgba(255, 255, 255, 0.7);
+  
+  /* Fixed/Box */
+  --fixed-box: rgba(255, 255, 255, 0);
+}
+
+/* Typography */
+:root {
+  /* Font Families */
+  --font-family-primary: 'PingFang SC', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-family-display: 'DingTalk JinBuTi', 'PingFang SC', sans-serif;
+  --font-family-sf: 'SF Pro', -apple-system, sans-serif;
+  
+  /* Font Sizes */
+  --font-size-12: 12px;
+  --font-size-14: 14px;
+  --font-size-16: 16px;
+  --font-size-17: 17px;
+  --font-size-18: 18px;
+  --font-size-20: 20px;
+  --font-size-22: 22px;
+  --font-size-24: 24px;
+  --font-size-26: 26px;
+  --font-size-28: 28px;
+  
+  /* Line Heights */
+  --line-height-18: 18px;
+  --line-height-21: 21px;
+  --line-height-22: 22px;
+  --line-height-24: 24px;
+  --line-height-26: 26px;
+  --line-height-32: 32px;
+  
+  /* Font Weights */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+}
+
+/* Spacing & Sizing */
+:root {
+  --spacing-4: 4px;
+  --spacing-6: 6px;
+  --spacing-8: 8px;
+  --spacing-10: 10px;
+  --spacing-12: 12px;
+  --spacing-14: 14px;
+  --spacing-16: 16px;
+  --spacing-20: 20px;
+  --spacing-24: 24px;
+  --spacing-30: 30px;
+  --spacing-40: 40px;
+  --spacing-60: 60px;
+  
+  /* Border Radius */
+  --radius-3: 3px;
+  --radius-4: 4px;
+  --radius-8: 8px;
+  --radius-10: 10px;
+  --radius-12: 12px;
+  --radius-15: 15px;
+  --radius-16: 16px;
+  --radius-19: 19px;
+  --radius-80: 80px;
+  --radius-100: 100px;
+  
+  /* Container Sizes */
+  --container-width: 375px;
+  --status-bar-height: 54px;
+  --header-height: 56px;
+  --home-bar-height: 34px;
+}
+
+/* Shadows & Effects */
+:root {
+  --shadow-sm: -0.415px 0.415px 1.342px 0px rgba(0, 0, 0, 0.25);
+  --backdrop-blur-sm: blur(8px);
+  --backdrop-blur-2xl: blur(40px);
+}
+
+/* Global Styles */
+html, body {
+  background: var(--basic-0);
+  color: var(--basic-10);
+  font-family: var(--font-family-primary);
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Typography Classes */
+.text-h4 {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-26);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-32);
+}
+
+.text-h5 {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-22);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-32);
+}
+
+.text-p0 {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-20);
+  font-weight: var(--font-weight-regular);
+  line-height: 1;
+}
+
+.text-p1 {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-24);
+}
+
+.text-p2 {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-26);
+}
+
+.text-p3 {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-22);
+}
+
+.text-s1-s {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-16);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-24);
+}
+
+.text-s3-m {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-14);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-22);
+}

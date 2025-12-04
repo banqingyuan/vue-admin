@@ -64,7 +64,7 @@ const reviewModalLoading = ref(false);
 const reviewSourceStatus = ref<'pending' | 'reject' | null>(null);
 const reviewForm = reactive({
   result: 'pass' as 'pass' | 'reject',
-  level: 1,
+  level: 2,
   parentPromoterId: undefined as number | undefined,
   remark: '',
 });
@@ -534,7 +534,7 @@ function openReviewModal(record?: PromoterListItem) {
   const status = (target.approval_status || '').toLowerCase();
   reviewSourceStatus.value = status === 'reject' ? 'reject' : 'pending';
   reviewForm.result = reviewSourceStatus.value === 'reject' ? 'reject' : 'pass';
-  reviewForm.level = target.level || 1;
+  reviewForm.level = target.level || 2;
   reviewForm.parentPromoterId = target.parent_promoter_id ?? undefined;
   reviewForm.remark = '';
   reviewModalVisible.value = true;

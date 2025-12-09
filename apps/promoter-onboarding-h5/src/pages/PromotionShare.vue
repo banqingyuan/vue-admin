@@ -22,24 +22,18 @@
         </div>
       </section>
 
-      <!-- 邀请链接 + 二维码 -->
+      <!-- 邀请链接 -->
       <section class="card link-card">
         <div class="card-title-row">
-          <p class="card-title highlight">邀请链接</p>
+          <p class="card-title">邀请链接</p>
           <button class="ghost-btn" @click="copyText(shareLink, '复制成功～')">
-            复制推广链接
+            复制链接
           </button>
         </div>
-        <p class="share-link">{{ shareLink }}</p>
-
-        <div class="qr-wrapper">
-          <div class="qr-box">
-            <img v-if="qrDataUrl" :src="qrDataUrl" alt="二维码" />
-            <div v-else class="qr-placeholder">生成中...</div>
-          </div>
-          <p class="qr-tip">可长按保存到相册</p>
-          <button class="primary-btn" @click="saveQrImage">保存到相册</button>
+        <div class="share-link-box">
+          <p class="share-link">{{ shareLink }}</p>
         </div>
+        <p class="link-tip">⚠️ 需确保邀请的用户，通过你的链接下载，否则无法填写邀请码绑定。</p>
       </section>
 
       <!-- 邀请文案 -->
@@ -88,8 +82,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from 'vue';
-import QRCode from 'qrcode';
+import { computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAgentStore } from '#/store/agent';
 import { useToast } from '#/composables/useToast';
@@ -97,9 +90,6 @@ import { useToast } from '#/composables/useToast';
 const router = useRouter();
 const agent = useAgentStore();
 const toast = useToast();
-
-const qrDataUrl = ref('');
-const generating = ref(false);
 
 const invitationCode = computed(() => agent.selfPromotionStats?.invitation_code || '');
 const promoterId = computed(() => agent.promoterInfo?.promoter_id || 0);
@@ -119,30 +109,6 @@ const formattedInviteCode = computed(() => {
 
 const inviteScript = computed(() => {
   return `推荐你用【AI 扑克记牌器】：\n下载链接：${downloadLink.value}\n登录后输入邀请码【${formattedInviteCode.value}】可多得一天免费 SVIP 会员哈。`;
-});
-
-const generateQrCode = async () => {
-  if (!shareLink.value || generating.value) return;
-  generating.value = true;
-  try {
-    qrDataUrl.value = await QRCode.toDataURL(shareLink.value, {
-      width: 320,
-      margin: 0,
-      color: {
-        dark: '#0f0f0f',
-        light: '#ffffff',
-      },
-    });
-  } catch (error) {
-    console.error('生成二维码失败:', error);
-  } finally {
-    generating.value = false;
-  }
-};
-
-watch(shareLink, () => {
-  qrDataUrl.value = '';
-  generateQrCode();
 });
 
 const ensureDataLoaded = async () => {
@@ -176,18 +142,8 @@ const copyText = async (text: string, successMsg: string) => {
   }
 };
 
-const saveQrImage = () => {
-  if (!qrDataUrl.value) return;
-  const link = document.createElement('a');
-  link.href = qrDataUrl.value;
-  link.download = `promoter-qr-${invitationCode.value || 'link'}.png`;
-  link.click();
-  toast.success('保存成功');
-};
-
 onMounted(async () => {
   await ensureDataLoaded();
-  await generateQrCode();
 });
 </script>
 
@@ -327,63 +283,36 @@ onMounted(async () => {
   gap: 10px;
 }
 
-.share-link {
-  font-family: 'PingFang SC', sans-serif;
-  font-size: 16px;
-  line-height: 24px;
-  color: var(--primary-1, #fffdf0);
-  word-break: break-all;
-  margin: 0;
-}
-
-.qr-wrapper {
-  margin-top: 14px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-
-.qr-box {
-
-  background: #ffffff;
+.share-link-box {
+  background: var(--basic-2, #262626);
+  border-radius: 10px;
+  padding: 10px 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 6px;
-  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.qr-box img {
-  width: 160px;
-  height: 160px;
-}
-
-.qr-placeholder {
-  font-size: 14px;
-  color: var(--basic-5, #8c8c8c);
-}
-
-.qr-tip {
+.share-link {
   font-family: 'PingFang SC', sans-serif;
   font-size: 16px;
+  font-weight: 600;
   line-height: 24px;
-  color: var(--basic-5, #8c8c8c);
+  color: var(--basic-10, #ffffff);
+  word-break: break-all;
   margin: 0;
+  flex: 1;
+  white-space: pre-wrap;
 }
 
-.primary-btn {
-  background: var(--primary-6, #ffe395);
-  border: 1px solid var(--primary-6, #ffe395);
-  border-radius: 10px;
-  padding: 7px 12px;
-  color: var(--primary-12, #201e1a);
+.link-tip {
   font-family: 'PingFang SC', sans-serif;
   font-size: 14px;
-  font-weight: 500;
-  line-height: 22px;
-  text-align: center;
-  cursor: pointer;
+  line-height: normal;
+  color: var(--basic-6, #bfbfbf);
+  margin: 0;
+  white-space: pre-wrap;
 }
 
 /* 邀请文案卡片 */
